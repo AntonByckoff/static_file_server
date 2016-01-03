@@ -28,14 +28,7 @@ var server=http.createServer(function(req,res){
            // установка кодирировки utf-8 для воспринимания кирилических символов
            res.setHeader('Content-Type','text/plain; charset ="utf8"');
 		   var stream=fs.createReadStream(path);
-		   // Запись файла для ответа
-		   stream.on('data',function(chunk){
-		   	res.write(chunk);
-		   });
-		   stream.on('end',function(){
-		   	// Завершение ответа после закрытия файла 
-		    res.end();
-		   });
+		   stream.pipe(res);
 		   // Обработка на случай ошибки
 		   stream.on('error',function(){
 		   	res.statusCode='500';
